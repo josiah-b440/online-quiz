@@ -1,164 +1,130 @@
-* {
-    margin: 0;
-    padding: 0;
-    box-sizing: border-box;
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Quiz Game</title>
+
+    <!-- Google Font -->
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600&display=swap" rel="stylesheet">
+
+    <!-- CSS -->
+    <link rel="stylesheet" href="style.css">
+</head>
+
+<body>
+
+<div class="container">
+
+    <!-- Progress Bar -->
+    <div class="progress-container">
+        <div class="progress-bar" id="progress"></div>
+    </div>
+
+    <!-- Question -->
+    <h2 id="question">Loading...</h2>
+
+    <!-- Options -->
+    <div id="options"></div>
+
+    <!-- Navigation Buttons -->
+    <div class="nav-buttons">
+        <button onclick="prevQ()">⬅ Previous</button>
+        <button id="nextBtn" onclick="nextQ()">Next ➡</button>
+    </div>
+
+</div>
+
+<!-- Script -->
+<script>
+let questions = [];
+let current = 0;
+let answers = [];
+
+// 🔁 Fetch questions from backend
+fetch("https://online-quiz-ruzd.onrender.com/questions")
+.then(res => res.json())
+.then(data => {
+    questions = shuffle(data).slice(0, 10); // pick 10 random questions
+    loadQ();
+});
+
+// 🔀 Shuffle function
+function shuffle(arr) {
+    return arr.sort(() => Math.random() - 0.5);
 }
 
-/* Background */
-body {
-    font-family: 'Poppins', sans-serif;
-    min-height: 100vh;
-    background: linear-gradient(135deg, #1f1c2c, #928dab);
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    padding: 20px;
-    color: #fff;
-}
+// 📌 Load Question
+function loadQ() {
+    let q = questions[current];
 
-/* Glass Container */
-.container {
-    width: 100%;
-    max-width: 450px;
-    padding: 30px;
-    border-radius: 25px;
-    text-align: center;
+    document.getElementById("question").innerText = `Q${current + 1}. ${q.question}`;
 
-    background: rgba(255, 255, 255, 0.08);
-    backdrop-filter: blur(20px);
-    box-shadow: 0 10px 40px rgba(0, 0, 0, 0.5);
-    border: 1px solid rgba(255,255,255,0.2);
+    let optDiv = document.getElementById("options");
+    optDiv.innerHTML = "";
 
-    animation: fadeIn 0.5s ease;
-}
+    q.options.forEach(opt => {
+        let btn = document.createElement("div");
+        btn.innerText = opt;
+        btn.classList.add("option");
 
-/* Animation */
-@keyframes fadeIn {
-    from {
-        opacity: 0;
-        transform: translateY(20px);
-    }
-    to {
-        opacity: 1;
-        transform: translateY(0);
-    }
-}
+        // Highlight selected
+        if (answers[current] === opt) {
+            btn.classList.add("selected");
+        }
 
-/* Heading */
-h1 {
-    font-size: 28px;
-    margin-bottom: 10px;
-}
+        btn.onclick = () => {
+            answers[current] = opt;
+            loadQ();
+        };
 
-h2 {
-    font-size: 20px;
-    margin-bottom: 20px;
-    line-height: 1.4;
-}
+        optDiv.appendChild(btn);
+    });
 
-/* Options */
-.option {
-    width: 100%;
-    padding: 14px;
-    margin: 10px 0;
-    border-radius: 12px;
-    background: rgba(255,255,255,0.15);
-    cursor: pointer;
-    transition: all 0.3s ease;
-    font-size: 15px;
-    border: 1px solid transparent;
-}
+    // 📊 Progress Bar Update
+    let progress = ((current + 1) / 10) * 100;
+    document.getElementById("progress").style.width = progress + "%";
 
-.option:hover {
-    background: rgba(255,255,255,0.3);
-    transform: scale(1.03);
-}
-
-/* Selected Option */
-.selected {
-    background: linear-gradient(45deg, #00c9a7, #92fe9d);
-    color: #000;
-    font-weight: 600;
-    box-shadow: 0 0 10px rgba(0,255,150,0.6);
-}
-
-/* Buttons */
-button {
-    padding: 12px 18px;
-    border: none;
-    border-radius: 12px;
-    margin: 8px;
-    font-size: 14px;
-    cursor: pointer;
-    background: linear-gradient(45deg, #ff7a18, #ffb347);
-    color: white;
-    transition: all 0.3s ease;
-    font-weight: 500;
-}
-
-button:hover {
-    transform: scale(1.08);
-    box-shadow: 0 5px 20px rgba(255,150,0,0.6);
-}
-
-/* Navigation */
-.nav-buttons {
-    display: flex;
-    justify-content: space-between;
-    margin-top: 20px;
-}
-
-/* Progress Bar */
-.progress-container {
-    width: 100%;
-    background: rgba(255,255,255,0.2);
-    border-radius: 20px;
-    margin-bottom: 20px;
-    overflow: hidden;
-}
-
-.progress-bar {
-    height: 8px;
-    background: linear-gradient(90deg, #00c9a7, #92fe9d);
-    width: 0%;
-    transition: 0.4s ease;
-}
-
-/* Mobile */
-@media (max-width: 480px) {
-    .container {
-        padding: 20px;
-    }
-
-    h1 {
-        font-size: 22px;
-    }
-
-    h2 {
-        font-size: 18px;
-    }
-
-    button {
-        width: 100%;
-    }
-
-    .nav-buttons {
-        flex-direction: column;
+    // 🔁 Change button text on last question
+    if (current === 9) {
+        document.getElementById("nextBtn").innerText = "Submit";
+    } else {
+        document.getElementById("nextBtn").innerText = "Next ➡";
     }
 }
 
-/* Tablet */
-@media (min-width: 768px) {
-    .container {
-        max-width: 550px;
-        padding: 35px;
+// ➡ Next
+function nextQ() {
+    if (current === 9) {
+        submitQuiz();
+        return;
     }
+    current++;
+    loadQ();
+}
 
-    h1 {
-        font-size: 32px;
-    }
-
-    h2 {
-        font-size: 24px;
+// ⬅ Previous
+function prevQ() {
+    if (current > 0) {
+        current--;
+        loadQ();
     }
 }
+
+// 🧮 Submit Quiz
+function submitQuiz() {
+    let score = 0;
+
+    questions.forEach((q, i) => {
+        if (q.answer === answers[i]) {
+            score++;
+        }
+    });
+
+    localStorage.setItem("score", score);
+    window.location.href = "result.html";
+}
+</script>
+
+</body>
+</html>
