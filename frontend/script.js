@@ -3,7 +3,7 @@ let current = 0;
 let answers = [];
 
 // 🔁 Fetch questions from backend
-fetch("https://quiz-app-ouwz.onrender.com/questions")
+fetch("https://online-quiz-ruzd.onrender.com/questions")
   .then(res => res.json())
   .then(data => {
 
