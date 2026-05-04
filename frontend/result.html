@@ -1,0 +1,55 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Quiz Result</title>
+
+    <!-- Google Font -->
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600&display=swap" rel="stylesheet">
+
+    <!-- CSS -->
+    <link rel="stylesheet" href="style.css">
+</head>
+
+<body>
+
+<div class="container">
+
+    <h1>🏆 Your Result</h1>
+
+    <h2 id="score" style="margin: 20px 0;"></h2>
+
+    <h3 id="feedback" style="margin-bottom: 25px;"></h3>
+
+    <button onclick="restart()">Play Again</button>
+
+</div>
+
+<script>
+// Get score
+let score = parseInt(localStorage.getItem("score")) || 0;
+
+// Display score
+document.getElementById("score").innerText = `Score: ${score}/10`;
+
+// Feedback logic
+let feedback = "";
+
+if (score === 10) feedback = "Perfect Score!";
+else if (score >= 8) feedback = "Excellent!";
+else if (score >= 6) feedback = "Good Job!";
+else if (score >= 4) feedback = "Average Performance";
+else feedback = "Keep Practicing!";
+
+// Show feedback
+document.getElementById("feedback").innerText = feedback;
+
+// Restart quiz
+function restart() {
+    window.location.href = "index.html";
+}
+</script>
+
+</body>
+</html>

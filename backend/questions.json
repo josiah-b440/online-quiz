@@ -1,0 +1,52 @@
+[
+  {
+    "question": "What does HTTP stand for?",
+    "options": ["HyperText Transfer Protocol", "HighText Transfer Protocol", "Hyper Transfer Text Process", "None"],
+    "answer": "HyperText Transfer Protocol"
+  },
+  {
+    "question": "Which HTML element is used for the largest heading?",
+    "options": ["<h6>", "<heading>", "<h1>", "<head>"],
+    "answer": "<h1>"
+  },
+  {
+    "question": "Which CSS property controls the text size?",
+    "options": ["font-style", "text-size", "font-size", "text-style"],
+    "answer": "font-size"
+  },
+  {
+    "question": "Inside which HTML element do we put JavaScript?",
+    "options": ["<js>", "<script>", "<javascript>", "<code>"],
+    "answer": "<script>"
+  },
+  {
+    "question": "Which method converts JSON to JavaScript object?",
+    "options": ["JSON.parse()", "JSON.stringify()", "JSON.convert()", "JSON.toObject()"],
+    "answer": "JSON.parse()"
+  },
+  {
+    "question": "Which company developed React?",
+    "options": ["Google", "Facebook", "Microsoft", "Amazon"],
+    "answer": "Facebook"
+  },
+  {
+    "question": "What is the default position value in CSS?",
+    "options": ["relative", "absolute", "static", "fixed"],
+    "answer": "static"
+  },
+  {
+    "question": "Which symbol is used for strict equality in JavaScript?",
+    "options": ["==", "===", "!=", "="],
+    "answer": "==="
+  },
+  {
+    "question": "Which HTML attribute is used to define inline styles?",
+    "options": ["class", "style", "font", "styles"],
+    "answer": "style"
+  },
+  {
+    "question": "Which keyword is used to declare a constant in JavaScript?",
+    "options": ["var", "let", "const", "static"],
+    "answer": "const"
+  }
+]
